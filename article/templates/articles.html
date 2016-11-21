@@ -1,0 +1,54 @@
+{% extends "main.html" %} 
+{% load staticfiles %}
+
+ {% block article %}
+<div class="large-8 columns"> 
+    {% for article in articles %}
+    <h6>Дата публикации: {{ article.article_date }}</h6>
+    <h4><a href="/articles/get/{{ article.id }}">{{article.article_title }}</a></h4>
+    <p>{{ article.article_text|truncatewords:75 }}</p>
+    <a href="/articles/get/{{ article.id }}/">
+        <button class="hollow button">Читать дальше</button>
+    </a>
+    <p>
+        <a href="/articles/addlike/{{ article.id }}/" title="like"><img src="{% static "like.png" %}" width="25px" height="25px" alt="Понравилось"></a>{{ article.article_likes }}</p>
+    <hr> {% endfor %}
+</div>
+{% endblock article %}
+
+ {% block paginator %}
+<!--<div class="pagination text-center" role="navigation" aria-label="Pagination">
+	    <span class="step-links">
+	        {% if articles.has_previous %}
+	            <a href="?page={{ articles.previous_page_number }}">Назад</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Страница {{ articles.number }} из {{ articles.paginator.num_pages }}.
+	        </span>
+
+	        {% if articles.has_next %}
+	            <a href="?page={{ articles.next_page_number }}">Вперед</a>
+	        {% endif %}
+	    </span>
+	</div>!-->
+<div class="row">
+    <div class="large-5 large-offset-3 columns">
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            {% if articles.has_previous %}
+            <li class="pagination-previous disabled"><a href="?page={{ articles.previous_page_number }}">Назад</a></li>
+            {% else %}
+            <li></li>
+            {% endif %} {% for page in articles.paginator.page_range %} {% if page == articles.number %}
+            <li class="current">{{ page }}</li>
+            {% else %}
+            <li><a href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %} {% endfor %} {% if articles.has_next %}
+            <li class="pagination-next"><a href="?page={{ articles.next_page_number }}" aria-label="Next page">Вперед</a></li>
+            {% else %}
+            <li></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock paginator %}

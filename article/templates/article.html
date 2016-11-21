@@ -1,0 +1,30 @@
+{% extends "main.html" %} {% block article %}
+<h4>{{ article.article_date }}</h4>
+<h2>{{ article.article_title }}</h2>
+<p>{{ article.article_text }}</p>
+<hr>
+<div class="large-offset-1 large-10 columns">
+    <p>Комментарии</p>
+    {% for comment in comments %}
+    <h6>Автор: {{ comment.comments_author }}</h6> {{comment.comments_text}}
+    <hr> {% endfor %}
+    <p class="text-right">
+        <span>
+	        {% if comments.has_previous %}
+	            <a href="?page={{ comments.previous_page_number }}">Назад</a>
+	        {% endif %}
+
+	        <span class="current">
+	            {{ comments.number }} из {{ comments.paginator.num_pages }}.
+	        </span> {% if comments.has_next %}
+        <a href="?page={{ comments.next_page_number }}">Вперед</a> {% endif %}
+        </span>
+    </p>
+    {% if username %}
+    <form action="/articles/addcomment/{{ article.id }}/" method="post" accept-charset="utf-8">
+        {% csrf_token %} {{form }}
+        <input type="submit" class="button" name="" value="Добавить комментарий">
+    </form>
+    {% endif %}
+</div>
+{% endblock article %}

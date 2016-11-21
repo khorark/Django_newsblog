@@ -1,0 +1,16 @@
+{% extends "main.html" %} {% block login %}
+<div class="large-offset-3 large-6 coumns">
+    <form action="/auth/login/" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <label for="username">Имя пользователя</label>
+        <input type="text" name="username" value="" placeholder="Введите имя пользователя" id="username" pattern="[a-zA-Z0-9]+">
+        <label for="password">Пароль</label>
+        <input type="password" name="password" value="" placeholder="Введите пароль" id="password"> {% if login_error %}
+        <label class="label alert">{{ login_error }}</label>
+        {% endif %}
+        <br>
+        <input class="button" type="submit" name="" value="Войти">
+        <div class="label alert"><a href="/auth/register/" title="">Регистрация</a></div>
+    </form>
+</div>
+{% endblock login %}
